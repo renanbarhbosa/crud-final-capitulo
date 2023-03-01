@@ -3,11 +3,14 @@ package com.renanbarhbosa.projetofinalcapitulo.services;
 import com.renanbarhbosa.projetofinalcapitulo.dto.ClientDTO;
 import com.renanbarhbosa.projetofinalcapitulo.entities.Client;
 import com.renanbarhbosa.projetofinalcapitulo.repositorie.ClientRepository;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Optional;
 
@@ -26,19 +29,29 @@ public class ClientService {
     @Transactional(readOnly = true)
     public ClientDTO findById(Long id) {
         Optional<Client> obj = repository.findById(id);
-        Client entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found."));
+        Client entity = obj.get();
         return new ClientDTO(entity);
     }
 
+    @Transactional
     public ClientDTO insert(ClientDTO dto) {
-        return null;
+        Client entity = new Client();
+        entity.setId(dto.getId());
+        entity.setName(dto.getName());
+        entity.setCpf(dto.getCpf());
+        entity = repository.save(entity);
+        return new ClientDTO(entity);
     }
 
+    @Transactional
     public ClientDTO update(Long id, ClientDTO dto) {
-        return null;
+            Client entity = repository.getReferenceById(id);
+            entity.setName(dto.getName());
+            entity = repository.save(entity);
+            return new ClientDTO(entity);
     }
 
     public void delete(Long id) {
-        return;
-    }
+            repository.deleteById(id);
+        }
 }
