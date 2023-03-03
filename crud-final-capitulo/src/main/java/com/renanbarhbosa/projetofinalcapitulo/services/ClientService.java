@@ -2,15 +2,12 @@ package com.renanbarhbosa.projetofinalcapitulo.services;
 
 import com.renanbarhbosa.projetofinalcapitulo.dto.ClientDTO;
 import com.renanbarhbosa.projetofinalcapitulo.entities.Client;
-import com.renanbarhbosa.projetofinalcapitulo.repositorie.ClientRepository;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import com.renanbarhbosa.projetofinalcapitulo.repositories.ClientRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Optional;
 
