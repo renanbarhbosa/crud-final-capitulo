@@ -29,16 +29,18 @@ public class ClientService {
     @Transactional(readOnly = true)
     public ClientDTO findById(Long id) {
         Optional<Client> obj = repository.findById(id);
-        Client entity = obj.get();
+        Client entity = obj.orElseThrow(() -> new IllegalArgumentException("Not found."));
         return new ClientDTO(entity);
     }
 
     @Transactional
     public ClientDTO insert(ClientDTO dto) {
         Client entity = new Client();
-        entity.setId(dto.getId());
         entity.setName(dto.getName());
         entity.setCpf(dto.getCpf());
+        entity.setIncome(dto.getIncome());
+        entity.setBirthDate(dto.getBirthDate());
+        entity.setChildren(dto.getChildren());
         entity = repository.save(entity);
         return new ClientDTO(entity);
     }
@@ -55,3 +57,5 @@ public class ClientService {
             repository.deleteById(id);
         }
 }
+
+
